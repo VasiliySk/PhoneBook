@@ -1,5 +1,7 @@
 package ru.vasiliy.phonebook.interfaces.impls;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import ru.vasiliy.phonebook.interfaces.PhoneBook;
 import ru.vasiliy.phonebook.objects.Person;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 
 public class CollectionPhoneBook implements PhoneBook {
 
-    private ArrayList<Person> personList = new ArrayList<Person>();
+    private ObservableList<Person> personList = FXCollections.observableArrayList();
 
     @Override
     public void add(Person person) {
@@ -25,7 +27,7 @@ public class CollectionPhoneBook implements PhoneBook {
     }
 
 
-    public ArrayList<Person> getPersonList() {
+    public ObservableList<Person> getPersonList() {
         return personList;
     }
 

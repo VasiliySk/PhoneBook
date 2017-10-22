@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" stylesheets="@default-style.css" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vasiliy.phonebook.controllers.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" stylesheets="@default-style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.vasiliy.phonebook.controllers.Controller">
    <children>
       <HBox prefHeight="30.0">
          <children>
@@ -19,12 +19,12 @@
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnChange" mnemonicParsing="false" text="Изменить">
+            <Button fx:id="btnChange" mnemonicParsing="false" onAction="#showDialog" text="Изменить">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnDelete" mnemonicParsing="false" text="Удалить">
+            <Button fx:id="btnDelete" mnemonicParsing="false" onAction="#showDialog" text="Удалить">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -45,9 +45,9 @@
             <TableView fx:id="tblTableView" prefHeight="285.0" prefWidth="600.0" AnchorPane.bottomAnchor="-51.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columns>
                 <TableColumn fx:id="tbcFamily" prefWidth="75.0" text="Фамилия" />
-                <TableColumn fx:id="tbnName" prefWidth="75.0" text="Имя" />
-                  <TableColumn fx:id="tbnOtchestvo" prefWidth="75.0" text="Отчество" />
-                  <TableColumn fx:id="tbnPhone" prefWidth="75.0" text="Телефон" />
+                <TableColumn fx:id="tbcName" prefWidth="75.0" text="Имя" />
+                  <TableColumn fx:id="tbcOtchestvo" prefWidth="75.0" text="Отчество" />
+                  <TableColumn fx:id="tbcPhone" prefWidth="75.0" text="Телефон" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
