@@ -1,48 +1,68 @@
 package ru.vasiliy.phonebook.objects;
 
+import javafx.beans.property.SimpleStringProperty;
+
 public class Person {
-    private String familiya;
-    private String imya;
-    private String otchestvo;
-    private String phone;
+    private SimpleStringProperty familiya = new SimpleStringProperty("");
+    private SimpleStringProperty imya = new SimpleStringProperty("");
+    private SimpleStringProperty otchestvo=new SimpleStringProperty("");
+    private SimpleStringProperty phone=new SimpleStringProperty("");
+
+    public Person(){}
 
     public Person(String familiya, String imya, String otchestvo, String phone) {
-        this.familiya = familiya;
-        this.imya = imya;
-        this.otchestvo = otchestvo;
-        this.phone = phone;
+        this.familiya = new SimpleStringProperty(familiya);
+        this.imya = new SimpleStringProperty(imya);
+        this.otchestvo = new SimpleStringProperty(otchestvo);
+        this.phone = new SimpleStringProperty(phone);
     }
 
     public String getFamiliya() {
-        return familiya;
+        return familiya.get();
     }
 
     public void setFamiliya(String familiya) {
-        this.familiya = familiya;
+        this.familiya.set( familiya);
     }
 
     public String getImya() {
-        return imya;
+        return imya.get();
     }
 
     public void setImya(String imya) {
-        this.imya = imya;
+        this.imya.set(imya);
     }
 
     public String getOtchestvo() {
-        return otchestvo;
+        return otchestvo.get();
     }
 
     public void setOtchestvo(String otchestvo) {
-        this.otchestvo = otchestvo;
+        this.otchestvo.set(otchestvo);
     }
 
     public String getPhone() {
-        return phone;
+        return phone.get();
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phone.set(phone);
+    }
+
+    public SimpleStringProperty familiyaProperty() {
+        return familiya;
+    }
+
+    public SimpleStringProperty imyaProperty() {
+        return imya;
+    }
+
+    public SimpleStringProperty otchestvoProperty() {
+        return otchestvo;
+    }
+
+    public SimpleStringProperty phoneProperty() {
+        return phone;
     }
 
     @Override

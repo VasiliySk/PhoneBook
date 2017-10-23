@@ -5,7 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import ru.vasiliy.phonebook.interfaces.impls.CollectionPhoneBook;
 
 public class Main extends Application {
 

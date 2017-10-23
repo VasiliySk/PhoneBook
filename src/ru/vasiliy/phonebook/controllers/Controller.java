@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import ru.vasiliy.phonebook.interfaces.impls.CollectionPhoneBook;
 import ru.vasiliy.phonebook.objects.Person;
 
@@ -44,6 +45,14 @@ public class Controller {
     @FXML
     private Label lblCount;
 
+    private Parent fxmlEdit;
+
+    private FXMLLoader fxmlLoader =new FXMLLoader();
+
+    private DialogController dialogController;
+
+    private Stage dialogStage;
+
     @FXML
     private void initialize(){
         tbcFamily.setCellValueFactory(new PropertyValueFactory<Person,String>("familiya"));
@@ -58,13 +67,38 @@ public class Controller {
         collectionPhoneBook.fillData();
         tblTableView.setItems(collectionPhoneBook.getPersonList());
 
+        try {
+            fxmlLoader.setLocation(getClass().getResource("../fxml/dialog.fxml"));
+            fxmlEdit = fxmlLoader.load();
+            dialogController = fxmlLoader.getController();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     private void updateCountList(){
         lblCount.setText("Количесто записей: "+collectionPhoneBook.getPersonList().size());
     }
 
-    public void showDialog(ActionEvent actionEvent){
+    private void showDialog(Window parentWindow){
+
+        if (dialogStage==null){
+            dialogStage = new Stage();
+            dialogStage.setTitle("Модальное окно");
+            dialogStage.setMinWidth(150);
+            dialogStage.setMinWidth(200);
+            dialogStage.setResizable(false);
+            dialogStage.setScene(new Scene(fxmlEdit));
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(parentWindow);
+        }
+
+        dialogStage.show();
+
+    }
+
+    public void actionButtonPressed(ActionEvent actionEvent) {
 
         Object source = actionEvent.getSource();
 
@@ -74,12 +108,15 @@ public class Controller {
 
         Button clickedButton =(Button)source;
         Person selectedPerson = (Person)tblTableView.getSelectionModel().getSelectedItem();
+        Window parentWindow = ((Node)actionEvent.getSource()).getScene().getWindow();
+        dialogController.setPerson(selectedPerson);
 
         switch (clickedButton.getId()){
             case "btnAdd":
                 System.out.println("Add "+selectedPerson);
                 break;
             case "btnChange":
+                showDialog(parentWindow);
                 System.out.println("Change "+selectedPerson);
                 break;
             case "btnDelete":
@@ -87,20 +124,5 @@ public class Controller {
                 break;
         }
 
-        try {
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("../fxml/dialog.fxml"));
-            stage.setTitle("Модальное окно");
-            stage.setMinWidth(150);
-            stage.setMinWidth(200);
-            stage.setResizable(false);
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(((Node)actionEvent.getSource()).getScene().getWindow());
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
-
 }

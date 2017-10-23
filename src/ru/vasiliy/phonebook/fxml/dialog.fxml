@@ -82,7 +82,7 @@
       </HBox>
       <HBox alignment="TOP_CENTER" prefWidth="150.0">
          <children>
-            <Button fx:id="btnOk" defaultButton="true" mnemonicParsing="false" text="Применить">
+            <Button fx:id="btnOk" defaultButton="true" mnemonicParsing="false" onAction="#actionSave" text="Применить">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </HBox.margin>

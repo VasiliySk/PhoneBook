@@ -27,7 +27,7 @@ public class DialogController {
     public void actionClose(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage =(Stage)source.getScene().getWindow();
-        stage.close();
+        stage.hide();
     }
 
     public void setPerson(Person person){
@@ -36,5 +36,13 @@ public class DialogController {
         txtNam.setText(person.getImya());
         txtOtch.setText(person.getOtchestvo());
         txtPho.setText(person.getPhone());
+    }
+
+    public void actionSave(ActionEvent actionEvent) {
+        person.setFamiliya(txtFam.getText());
+        person.setImya(txtNam.getText());
+        person.setOtchestvo(txtOtch.getText());
+        person.setPhone(txtPho.getText());
+        actionClose(actionEvent);
     }
 }
