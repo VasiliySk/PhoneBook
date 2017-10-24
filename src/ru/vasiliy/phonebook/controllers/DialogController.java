@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ru.vasiliy.phonebook.interfaces.impls.CollectionPhoneBook;
 import ru.vasiliy.phonebook.objects.Person;
 
 public class DialogController {
@@ -24,6 +25,10 @@ public class DialogController {
 
     private Person person;
 
+    private CollectionPhoneBook ctnPhoneBook;
+
+    private String btn;
+
     public void actionClose(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage =(Stage)source.getScene().getWindow();
@@ -38,11 +43,36 @@ public class DialogController {
         txtPho.setText(person.getPhone());
     }
 
+    public void setCtnPhoneBook(CollectionPhoneBook ctnPhoneBook) {
+        this.ctnPhoneBook = ctnPhoneBook;
+    }
+
     public void actionSave(ActionEvent actionEvent) {
+        switch (btn) {
+            case "btnChange":
+                personSave();
+                actionClose(actionEvent);
+                break;
+            case "btnDelete":
+                ctnPhoneBook.delete(person);
+                actionClose(actionEvent);
+                break;
+            case "btnAdd":
+                personSave();
+                ctnPhoneBook.add(person);
+                actionClose(actionEvent);
+                break;
+        }
+    }
+
+    private void personSave() {
         person.setFamiliya(txtFam.getText());
         person.setImya(txtNam.getText());
         person.setOtchestvo(txtOtch.getText());
         person.setPhone(txtPho.getText());
-        actionClose(actionEvent);
+    }
+
+    public void setBtn(String btn) {
+        this.btn = btn;
     }
 }

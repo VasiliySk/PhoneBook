@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -81,11 +82,10 @@ public class Controller {
         lblCount.setText("Количесто записей: "+collectionPhoneBook.getPersonList().size());
     }
 
-    private void showDialog(Window parentWindow){
+    private void showDialog(Window parentWindow, String title){
 
         if (dialogStage==null){
             dialogStage = new Stage();
-            dialogStage.setTitle("Модальное окно");
             dialogStage.setMinWidth(150);
             dialogStage.setMinWidth(200);
             dialogStage.setResizable(false);
@@ -94,6 +94,7 @@ public class Controller {
             dialogStage.initOwner(parentWindow);
         }
 
+        dialogStage.setTitle(title);
         dialogStage.show();
 
     }
@@ -109,20 +110,36 @@ public class Controller {
         Button clickedButton =(Button)source;
         Person selectedPerson = (Person)tblTableView.getSelectionModel().getSelectedItem();
         Window parentWindow = ((Node)actionEvent.getSource()).getScene().getWindow();
-        dialogController.setPerson(selectedPerson);
 
         switch (clickedButton.getId()){
             case "btnAdd":
-                System.out.println("Add "+selectedPerson);
+                dialogController.setBtn("btnAdd");
+                dialogController.setPerson(new Person());
+                dialogController.setCtnPhoneBook(collectionPhoneBook);
+                showDialog(parentWindow, "Добавление записи");
                 break;
             case "btnChange":
-                showDialog(parentWindow);
-                System.out.println("Change "+selectedPerson);
+                dialogController.setBtn("btnChange");
+                dialogController.setPerson(selectedPerson);
+                showDialog(parentWindow, "Изменение записи");
                 break;
             case "btnDelete":
-                System.out.println("Delete "+selectedPerson);
+                dialogController.setBtn("btnDelete");
+                dialogController.setPerson(selectedPerson);
+                dialogController.setCtnPhoneBook(collectionPhoneBook);
+                showDialog(parentWindow, "Удаление записи");
                 break;
         }
 
+    }
+
+    public void doubleClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount()==2){
+            Person selectedPerson = (Person)tblTableView.getSelectionModel().getSelectedItem();
+            Window parentWindow = ((Node)mouseEvent.getSource()).getScene().getWindow();
+            dialogController.setBtn("btnChange");
+            dialogController.setPerson(selectedPerson);
+            showDialog(parentWindow, "Изменение записи");
+        }
     }
 }
