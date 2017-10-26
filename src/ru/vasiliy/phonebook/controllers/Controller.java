@@ -1,6 +1,9 @@
 package ru.vasiliy.phonebook.controllers;
 
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +37,7 @@ public class Controller {
     @FXML
     private Button btnSearch;
     @FXML
-    private TableView tblTableView;
+    private TableView <Person>tblTableView;
     @FXML
     private TableColumn <Person, String>tbcFamily;
     @FXML
@@ -66,7 +69,39 @@ public class Controller {
         });
 
         collectionPhoneBook.fillData();
-        tblTableView.setItems(collectionPhoneBook.getPersonList());
+
+        FilteredList<Person> filteredData = new FilteredList<>(collectionPhoneBook.getPersonList(), p -> true);
+
+        txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(person -> {
+
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (person.getFamiliya().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches first name.
+                } else if (person.getImya().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                } else if (person.getOtchestvo().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                } else if (person.getPhone().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    return true; // Filter matches last name.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        SortedList<Person> sortedData = new SortedList<>(filteredData);
+
+        sortedData.comparatorProperty().bind(tblTableView.comparatorProperty());
+
+        tblTableView.setItems(sortedData);
+
+       // tblTableView.setItems(collectionPhoneBook.getPersonList());
 
         try {
             fxmlLoader.setLocation(getClass().getResource("../fxml/dialog.fxml"));
@@ -79,7 +114,7 @@ public class Controller {
     }
 
     private void updateCountList(){
-        lblCount.setText("Количесто записей: "+collectionPhoneBook.getPersonList().size());
+        lblCount.setText("Количесто записей в базе данных: "+collectionPhoneBook.getPersonList().size());
     }
 
     private void showDialog(Window parentWindow, String title){
@@ -119,10 +154,19 @@ public class Controller {
                 showDialog(parentWindow, "Добавление записи");
                 break;
             case "btnChange":
-                dialogController.setBtn("btnChange");
-                dialogController.setPerson(selectedPerson);
-                showDialog(parentWindow, "Изменение записи");
-                break;
+                if(selectedPerson!=null) {
+                    dialogController.setBtn("btnChange");
+                    dialogController.setPerson(selectedPerson);
+                    showDialog(parentWindow, "Изменение записи");
+                    break;
+                }else{
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Изменение записи");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Выберите запись для редактирования!");
+                    alert.showAndWait();
+                    break;
+                }
             case "btnDelete":
                 dialogController.setBtn("btnDelete");
                 dialogController.setPerson(selectedPerson);
@@ -141,5 +185,10 @@ public class Controller {
             dialogController.setPerson(selectedPerson);
             showDialog(parentWindow, "Изменение записи");
         }
+    }
+
+    public void actionSearch(ActionEvent actionEvent) {
+
+
     }
 }

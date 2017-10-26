@@ -3,11 +3,15 @@ package ru.vasiliy.phonebook.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ru.vasiliy.phonebook.interfaces.impls.CollectionPhoneBook;
 import ru.vasiliy.phonebook.objects.Person;
+
+import java.util.Optional;
 
 public class DialogController {
     @FXML
@@ -58,10 +62,28 @@ public class DialogController {
                 actionClose(actionEvent);
                 break;
             case "btnAdd":
-                personSave();
-                ctnPhoneBook.add(person);
-                actionClose(actionEvent);
-                break;
+                if(txtFam.getText().equals("")||txtNam.getText().equals("")||txtOtch.getText().equals("")||txtPho.getText().equals("")){
+
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Подтверждение");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Не все поля заполнены. Сохранить запись?");
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == ButtonType.OK){
+                        personSave();
+                        ctnPhoneBook.add(person);
+                        actionClose(actionEvent);
+                        break;
+                    } else {
+                        break;
+                    }
+                }else {
+                    personSave();
+                    ctnPhoneBook.add(person);
+                    actionClose(actionEvent);
+                    break;
+                }
         }
     }
 
