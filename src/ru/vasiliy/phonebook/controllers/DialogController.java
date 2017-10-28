@@ -55,10 +55,12 @@ public class DialogController {
         switch (btn) {
             case "btnChange":
                 personSave();
+                ctnPhoneBook.change();
                 actionClose(actionEvent);
                 break;
             case "btnDelete":
                 ctnPhoneBook.delete(person);
+                ctnPhoneBook.change();
                 actionClose(actionEvent);
                 break;
             case "btnAdd":
@@ -81,6 +83,7 @@ public class DialogController {
                 }else {
                     personSave();
                     ctnPhoneBook.add(person);
+                    ctnPhoneBook.change();
                     actionClose(actionEvent);
                     break;
                 }

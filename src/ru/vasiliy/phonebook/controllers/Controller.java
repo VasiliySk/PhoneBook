@@ -68,7 +68,7 @@ public class Controller {
             updateCountList();
         });
 
-        collectionPhoneBook.fillData();
+        collectionPhoneBook.loadFile();
 
         FilteredList<Person> filteredData = new FilteredList<>(collectionPhoneBook.getPersonList(), p -> true);
 
@@ -180,15 +180,13 @@ public class Controller {
     public void doubleClicked(MouseEvent mouseEvent) {
         if (mouseEvent.getClickCount()==2){
             Person selectedPerson = (Person)tblTableView.getSelectionModel().getSelectedItem();
-            Window parentWindow = ((Node)mouseEvent.getSource()).getScene().getWindow();
-            dialogController.setBtn("btnChange");
-            dialogController.setPerson(selectedPerson);
-            showDialog(parentWindow, "Изменение записи");
+            if (selectedPerson!=null) {
+                Window parentWindow = ((Node) mouseEvent.getSource()).getScene().getWindow();
+                dialogController.setBtn("btnChange");
+                dialogController.setPerson(selectedPerson);
+                showDialog(parentWindow, "Изменение записи");
+            }
         }
     }
 
-    public void actionSearch(ActionEvent actionEvent) {
-
-
-    }
 }

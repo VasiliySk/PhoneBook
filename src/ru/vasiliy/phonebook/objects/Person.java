@@ -67,11 +67,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person{" +
-                "familiya='" + familiya + '\'' +
-                ", imya='" + imya + '\'' +
-                ", otchestvo='" + otchestvo + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return  familiya.get() +";"+ imya.get() +";"+ otchestvo.get()+";"+ phone.get() ;
     }
 }
